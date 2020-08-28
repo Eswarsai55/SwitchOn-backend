@@ -6,14 +6,36 @@ import Boom from 'boom';
 
 const userService = {
   getUser: async(data) => {
-    const { id } = data;
-    if (id) {
-      return User.findById(id);
-    } else {
-      return User.find({});
-    }
+    return new Promise((resolve, reject) => {
+      const { id } = data;
+      async.auto({
+        user: async.asyncify(() => {
+          if (id) {
+            return User.findById(id).then(user => {
+              const userData = user.toObject();
+              delete userData.password;
+              return userData
+            })
+          }
+          return User.find({}).then(users => {
+            const updatedUsers = users.map(user => {
+              let userData = user.toObject();
+              delete userData.password;
+              return userData;
+            })
+            return updatedUsers
+          })
+        })
+      }, (err, results) => {
+        if (err) {
+          console.log(err);
+          return reject(err.isBoom ? err : Boom.boomify(err))
+        }
+        return resolve(results.user);
+      })
+    })
   },
-  createUser: (data) => {
+  createUser: data => {
     return new Promise((resolve, reject) => {
       const { email } = data;
       async.auto({

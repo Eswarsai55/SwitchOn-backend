@@ -32,7 +32,6 @@ const UserController = {
     }
     UserService.createUser(req.body)
     .then(result => {
-      console.log(result)
       return res.status(201).send(reqResponse.sucessResponse(201, "User created Successfully", result));
     })
     .catch(err => {
