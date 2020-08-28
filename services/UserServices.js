@@ -67,7 +67,7 @@ const userService = {
             id: user.id,
             name: user.firstName + user.lastName,
             departmentId: user.departmentId,
-          }, 'assignment-key', { expiresIn: 60 * 60 * 24 });
+          }, process.env.SECRET_KEY, { expiresIn: 60 * 60 * 24 });
           const userData = user.toObject();
           delete userData.password;
 

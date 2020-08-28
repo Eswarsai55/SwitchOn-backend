@@ -1,11 +1,18 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import Dotenv from 'dotenv';
 
 import {connectDb}  from './database/index.js';
 import routes from './routes/index.js';
 
 
 let app = express();
+const envFilePath = process.env.APP_ROOT_PATH + "/.env";
+try {
+  Dotenv.config(envFilePath);
+} catch (e){
+  throw new Error("Missing .env file. please refer Readme.md");
+}
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -14,6 +21,8 @@ app.use(bodyParser.urlencoded({
 
 app.use(routes);
 
+const port = process.env.NODE_ENV || 5100;
+
 connectDb();
 
-app.listen(5100, () => console.log('Running on localhost'));
+app.listen(port, () => console.log(`Running on localhost ${port}`));
