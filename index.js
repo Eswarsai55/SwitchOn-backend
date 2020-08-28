@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(routes);
 
-const port = process.env.NODE_ENV || 5100;
+const port = process.env.NODE_ENV || 3000;
 
 connectDb();
 
