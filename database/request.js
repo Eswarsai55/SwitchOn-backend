@@ -16,13 +16,17 @@ const requestSchema = new mongoose.Schema({
   reason: {
     type: String
   },
-  userId: {
+  allocatedUserId: {
     type: String,
     required: true
   },
   departmentId: {
     type: String,
     required: true,
+  },
+  ownerId: {
+    type: String,
+    required: true
   },
   status: {
     type: String,

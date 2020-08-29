@@ -18,7 +18,8 @@ const RequestController = {
   createRequest: async(req,res) => {
     const requestSchema = Joi.object({
       departmentId: Joi.string().required(),
-      userId: Joi.string().required(),
+      allocatedUserId: Joi.string().required(),
+      ownerId: Joi.string().required(),
       message: Joi.string().required(),
       status: Joi.string().required().valid('PENDING'),
     })
